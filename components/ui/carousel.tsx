@@ -71,7 +71,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
     <div className="perspective-distant transform-3d">
       <li
         ref={slideRef}
-        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[70vmin] h-[70vmin] mx-[4vmin] z-10 "
+        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[500px] h-[500px] mx-20 z-10 "
         onClick={() => handleSlideClick(index)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -110,11 +110,11 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
         </div>
 
         <article
-          className={`relative p-[4vmin] transition-opacity duration-1000 ease-in-out ${
+          className={`relative p-[4vmin] transition-opacity duration-1000 ease-in-out z-30 ${
             current === index ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         >
-          <h2 className="text-lg md:text-2xl lg:text-4xl font-semibold  relative">
+          <h2 className="text-lg md:text-2xl lg:text-4xl font-semibold  relative text-neutral-200!">
             {title}
           </h2>
           <p className="text-white/70 text-sm mb-4">{subtitle}</p>
@@ -140,15 +140,25 @@ const CarouselControl = ({
 }: CarouselControlProps) => {
   return (
     <button
-      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-700/50 backdrop-blur-xl  border-3 border-transparent rounded-full hover:-rotate-45 active:-rotate-45 transition duration-200 ${
-        type === "previous"
-          ? "rotate-180 active:rotate-180 hover:-rotate-45"
-          : ""
+      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-50/90 backdrop-blur-xl  border-3 border-transparent rounded-full hover:scale-105 active:scale-95 transition duration-200 mt-5 ${
+        type === "previous" ? "rotate-180 active:scale-95 hover:scale-105" : ""
       }`}
       title={title}
       onClick={handleClick}
     >
-      <FaArrowRight />
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
     </button>
   );
 };
@@ -226,12 +236,25 @@ export function Carousel({ slides }: CarouselProps) {
 
   return (
     <div
-      className="relative w-[70vmin] h-[70vmin] mx-auto"
+      className="relative w-[70vh] h-[50vh] mx-auto"
       aria-labelledby={`carousel-heading-${id}`}
     >
+      <div className="flex absolute -top-20 right-96 w-full  ">
+        <CarouselControl
+          type="previous"
+          title="Go to previous slide"
+          handleClick={handlePreviousClick}
+        />
+
+        <CarouselControl
+          type="next"
+          title="Go to next slide"
+          handleClick={handleNextClick}
+        />
+      </div>
       <ul
         ref={listRef}
-        className="absolute flex mx-[-4vmin] transition-transform duration-1000 ease-in-out"
+        className="absolute flex mx-auto transition-transform duration-1000 ease-in-out"
         style={{
           transform: `translateX(-${current * (100 / extendedSlides.length)}%)`,
         }}
@@ -246,20 +269,6 @@ export function Carousel({ slides }: CarouselProps) {
           />
         ))}
       </ul>
-
-      <div className="absolute flex justify-center w-full top-[calc(100%+1rem)]">
-        <CarouselControl
-          type="previous"
-          title="Go to previous slide"
-          handleClick={handlePreviousClick}
-        />
-
-        <CarouselControl
-          type="next"
-          title="Go to next slide"
-          handleClick={handleNextClick}
-        />
-      </div>
     </div>
   );
 }

@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Chakra_Petch, Inter } from "next/font/google";
+import { Syne, DM_Sans } from "next/font/google";
+
 import "./globals.css";
 import NavBar from "@/components/layout/Navbar";
+import FAQ from "@/components/Faq";
+import Footer from "@/components/layout/Footer";
 
-const chakra = Chakra_Petch({
-  variable: "--font-chakra",
+const syne = Syne({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-syne",
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
   subsets: ["latin"],
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -29,11 +31,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${chakra.variable} ${inter.variable} antialiased`}
+      className={`${syne.variable} ${dmSans.variable} antialiased`}
     >
       <body>
-        <NavBar />
-        <main>{children}</main>
+        <div className="min-h-screen w-full ">
+          <NavBar />
+          <main>{children}</main>
+          <FAQ />
+          <Footer />
+        </div>
       </body>
     </html>
   );

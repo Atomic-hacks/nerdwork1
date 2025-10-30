@@ -1,39 +1,46 @@
 import React from "react";
+import clsx from "clsx";
 
-const Button = ({
-  title,
-  icon,
-  position,
-  handleClick,
-  otherClasses,
-  buttonClasses,
-}: {
+interface ButtonProps {
+  id?: string | number;
   title: string;
-  icon?: React.ReactNode;
-  position?: string;
-  handleClick?: () => void;
-  otherClasses?: string;
-  buttonClasses?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  containerClass?: string;
+}
+
+const Button: React.FC<ButtonProps> = ({
+  id,
+  title,
+  leftIcon,
+  rightIcon,
+  containerClass,
 }) => {
   return (
-    <div>
-      <button
-        className={`w-full relative inline-flex h-12 overflow-hidden rounded-full p-px focus:outline-none lg:w-40 ${buttonClasses}`}
-        onClick={handleClick}
-        type="submit"
-      >
-        <span
-          className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#4B6BFF_0%,#6D4BFF_50%,#4B6BFF_100%)]"
-        />
-        <span
-          className={`inline-flex h-full w-full cursor-pointer items-center gap-2 justify-center rounded-full bg-primary px-7 text-sm font-medium text-white backdrop-blur-3xl ${otherClasses}`}
-        >
-          {position === "left" && icon}
+    <button
+      id={id?.toString()}
+      className={clsx(
+        "group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full blue px-8 py-3 text-black transition-colors hover:bg-blue-600 ",
+        containerClass
+      )}
+    >
+      {leftIcon && (
+        <span className="mr-2 inline-flex items-center">{leftIcon}</span>
+      )}
+
+      <span className="relative inline-flex overflow-hidden font-general text-xs uppercase">
+        <span className="translate-y-0 skew-y-0 transition duration-500 group-hover:-translate-y-[160%] group-hover:skew-y-12">
           {title}
-          {position === "right" && icon}
         </span>
-      </button>
-    </div>
+        <span className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
+          {title}
+        </span>
+      </span>
+
+      {rightIcon && (
+        <span className="ml-2 inline-flex items-center">{rightIcon}</span>
+      )}
+    </button>
   );
 };
 

@@ -39,7 +39,7 @@ const comics = [
 
 export default function ComicDisplaySection() {
   return (
-    <section className="relative min-h-screen py-32 px-6 md:px-12 overflow-hidden max-w-[1800px] mx-auto rounded-2xl">
+    <section className="relative min-h-screen py-12 px-6 md:px-12 overflow-hidden max-w-[1800px] mx-auto rounded-2xl">
       {/* Section Heading */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}

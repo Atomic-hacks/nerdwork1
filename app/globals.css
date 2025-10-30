@@ -7,37 +7,36 @@
   --font-header: var(--font-bangers);
   --font-body: var(--font-cabin);
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  --card: #f8f8fa;
+  --card-foreground: #18181a;
+  --popover: #fff;
+  --popover-foreground: #18181a;
+  --primary: #3624b7;
+  --primary-foreground: #fafafa;
+  --secondary: #f2f1fd;
+  --secondary-foreground: #3624b7;
+  --muted: #f6f8fc;
+  --muted-foreground: #7e7e90;
+  --accent: #624dc9;
+  --accent-foreground: #fafafa;
+  --destructive: #fd7472;
+  --border: #ececf3;
+  --input: #e5e8f3;
+  --ring: #b5aae5;
+  --chart-1: #6463e7;
+  --chart-2: #96a3f3;
+  --chart-3: #b3b9ef;
+  --chart-4: #8e79d8;
+  --chart-5: #baa1e5;
+  --sidebar: #f8f8fa;
+  --sidebar-foreground: #1e1c39;
+  --sidebar-primary: #3624b7;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f2f1fd;
+  --sidebar-accent-foreground: #3624b7;
+  --sidebar-border: #ececf3;
+  --sidebar-ring: #b5aae5;
 }
 
 @theme inline {
@@ -78,12 +77,13 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 body {
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  background-color: #000000;
+  color: #1b1445;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background-color: #0a0a0a;
 }
 
 /* Headers use Chakra Petch (bold and slightly futuristic) */
@@ -93,12 +93,13 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-chakra), sans-serif;
+  font-family: var(--font-syne), sans-serif;
   font-weight: 600;
   letter-spacing: 0.01em;
+  color: #f0f0f0;
 }
 .blue {
-  background-color: #5724ff;
+  background-color: #1a33ec;
 }
 .yellow {
   background-color: #edff66;

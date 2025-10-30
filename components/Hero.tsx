@@ -54,7 +54,7 @@ export default function CinematicHeroSlider() {
   };
 
   return (
-    <div className="relative h-[80vh] max-w-7xl mx-auto overflow-hidden rounded-2xl mt-20 mb-40">
+    <div className="relative h-[70vh] max-w-5xl mx-auto overflow-hidden rounded-2xl mt-5 mb-10 md:mb-20">
       {/* Counter - Top Left */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -153,7 +153,7 @@ export default function CinematicHeroSlider() {
       </motion.div>
 
       {/* Content - Bottom Right */}
-      <div className="absolute md:bottom-40 md:right-40  bottom-30 right-0 p-8 md:p-12 lg:p-16 z-20 max-w-2xl">
+      <div className="absolute md:bottom-10 md:right-10  bottom-30 right-0 p-8 md:p-12 lg:p-16 z-20 max-w-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
