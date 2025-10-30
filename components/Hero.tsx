@@ -153,7 +153,7 @@ export default function CinematicHeroSlider() {
       </motion.div>
 
       {/* Content - Bottom Right */}
-      <div className="absolute md:bottom-10 md:right-10  bottom-30 right-0 p-8 md:p-12 lg:p-16 z-20 max-w-2xl">
+      <div className="absolute md:bottom-10 md:right-10  bottom-20 right-0 p-8 md:p-12 lg:p-16 z-20 max-w-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}

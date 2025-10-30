@@ -2,7 +2,6 @@
 
 import { useState, useRef, useId, useEffect } from "react";
 import Button from "./Button";
-import { FaArrowRight } from "react-icons/fa6";
 
 interface SlideData {
   title: string;
@@ -20,7 +19,6 @@ interface SlideProps {
 
 const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
   const slideRef = useRef<HTMLLIElement>(null);
-
   const xRef = useRef<number>(0);
   const yRef = useRef<number>(0);
   const frameRef = useRef<number | null>(null);
@@ -28,32 +26,25 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
   useEffect(() => {
     const animate = () => {
       if (!slideRef.current) return;
-
       const x = xRef.current;
       const y = yRef.current;
-
       slideRef.current.style.setProperty("--x", `${x}px`);
       slideRef.current.style.setProperty("--y", `${y}px`);
-
       frameRef.current = requestAnimationFrame(animate);
     };
-
     frameRef.current = requestAnimationFrame(animate);
-
     return () => {
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
-      }
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
   }, []);
 
   const handleMouseMove = (event: React.MouseEvent) => {
     const el = slideRef.current;
     if (!el) return;
-
     const r = el.getBoundingClientRect();
-    xRef.current = event.clientX - (r.left + Math.floor(r.width / 2));
-    yRef.current = event.clientY - (r.top + Math.floor(r.height / 2));
+    const factor = window.innerWidth < 768 ? 60 : 30; // subtle on mobile
+    xRef.current = (event.clientX - (r.left + r.width / 2)) / factor;
+    yRef.current = (event.clientY - (r.top + r.height / 2)) / factor;
   };
 
   const handleMouseLeave = () => {
@@ -65,13 +56,14 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
     event.currentTarget.style.opacity = "1";
   };
 
-  const { src, button, title, subtitle } = slide;
+  const { src, title, subtitle } = slide;
 
   return (
     <div className="perspective-distant transform-3d">
       <li
         ref={slideRef}
-        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[500px] h-[500px] mx-20 z-10 "
+        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100
+                   transition-all duration-300 ease-in-out w-[90vw] max-w-[500px] h-[70vw] max-h-[600px] mx-auto sm:mx-20 z-10"
         onClick={() => handleSlideClick(index)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -88,13 +80,11 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
           className="absolute top-0 left-0 w-full h-full bg-[#1D1F2F] rounded-xl overflow-hidden transition-all duration-150 ease-out"
           style={{
             transform:
-              current === index
-                ? "translate3d(calc(var(--x) / 30), calc(var(--y) / 30), 0)"
-                : "none",
+              current === index ? "translate3d(var(--x), var(--y), 0)" : "none",
           }}
         >
           <img
-            className="absolute inset-0 w-[120%] h-[120%] object-cover opacity-100 transition-opacity duration-600 ease-in-out"
+            className="absolute inset-0 w-[125%] h-[125%] object-cover opacity-100 transition-opacity duration-600 ease-in-out"
             style={{
               opacity: current === index ? 1 : 0.5,
             }}
@@ -114,10 +104,12 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
             current === index ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         >
-          <h2 className="text-lg md:text-2xl lg:text-4xl font-semibold  relative text-neutral-200!">
+          <h2 className="text-lg sm:text-2xl md:text-4xl font-semibold text-neutral-200!">
             {title}
           </h2>
-          <p className="text-white/70 text-sm mb-4">{subtitle}</p>
+          <p className="text-sm sm:text-base md:text-lg text-white/70 mb-4">
+            {subtitle}
+          </p>
           <div className="flex justify-center">
             <Button title={title} />
           </div>
@@ -140,9 +132,10 @@ const CarouselControl = ({
 }: CarouselControlProps) => {
   return (
     <button
-      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-50/90 backdrop-blur-xl  border-3 border-transparent rounded-full hover:scale-105 active:scale-95 transition duration-200 mt-5 ${
-        type === "previous" ? "rotate-180 active:scale-95 hover:scale-105" : ""
-      }`}
+      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-50/0 backdrop-blur-xl border border-neutral-700
+                 rounded-full hover:scale-105 active:scale-95 transition duration-200 mt-5 ${
+                   type === "previous" ? "rotate-180" : ""
+                 }`}
       title={title}
       onClick={handleClick}
     >
@@ -168,11 +161,10 @@ interface CarouselProps {
 }
 
 export function Carousel({ slides }: CarouselProps) {
-  const [current, setCurrent] = useState(1); // Start at 1 (first real slide)
+  const [current, setCurrent] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
 
-  // Create extended slides array with clones at both ends
   const extendedSlides = [slides[slides.length - 1], ...slides, slides[0]];
 
   useEffect(() => {
@@ -181,26 +173,17 @@ export function Carousel({ slides }: CarouselProps) {
     const handleTransitionEnd = () => {
       setIsTransitioning(false);
 
-      // Jump to the real slide without transition
       if (current === 0) {
-        if (listRef.current) {
-          listRef.current.style.transition = "none";
-        }
+        if (listRef.current) listRef.current.style.transition = "none";
         setCurrent(slides.length);
         setTimeout(() => {
-          if (listRef.current) {
-            listRef.current.style.transition = "";
-          }
+          if (listRef.current) listRef.current.style.transition = "";
         }, 50);
       } else if (current === extendedSlides.length - 1) {
-        if (listRef.current) {
-          listRef.current.style.transition = "none";
-        }
+        if (listRef.current) listRef.current.style.transition = "none";
         setCurrent(1);
         setTimeout(() => {
-          if (listRef.current) {
-            listRef.current.style.transition = "";
-          }
+          if (listRef.current) listRef.current.style.transition = "";
         }, 50);
       }
     };
@@ -236,16 +219,15 @@ export function Carousel({ slides }: CarouselProps) {
 
   return (
     <div
-      className="relative w-[70vh] h-[50vh] mx-auto"
+      className="relative w-[90vw] max-w-[1000px] h-[70vw] max-h-[600px] mx-auto"
       aria-labelledby={`carousel-heading-${id}`}
     >
-      <div className="flex absolute -top-20 right-96 w-full  ">
+      <div className="flex absolute -top-20 right-60 sm:right-96 justify-end w-full px-4 sm:px-0">
         <CarouselControl
           type="previous"
           title="Go to previous slide"
           handleClick={handlePreviousClick}
         />
-
         <CarouselControl
           type="next"
           title="Go to next slide"

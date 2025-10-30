@@ -109,7 +109,7 @@ export default function Footer() {
         {/* Mobile Image - Static at bottom */}
         <div className="absolute bottom-0 left-1/3 md:hidden">
           <img
-            src="/img/comicon9.png"
+            src="/comic-cont.png"
             alt="Footer animation"
             className="size-96 object-contain"
           />
