@@ -11,7 +11,7 @@ export default function Home() {
       <div className="mt-28 md:mt-40">
         <h1 className="text-3xl md:text-5xl text-center">
           Where passion meets{" "}
-          <span className="text-4xl md:text-6xl font-bold text-blue-400">
+          <span className="text-4xl md:text-6xl font-bold text-blue-300">
             community
           </span>
         </h1>

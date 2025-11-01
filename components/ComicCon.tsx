@@ -148,7 +148,7 @@ export default function FandomChronicles() {
 
       <div className="relative max-w-7xl mx-auto">
         <header className="mb-12 sm:mb-16 lg:mb-32 max-w-3xl">
-          <p className="text-xs sm:text-sm uppercase tracking-widest text-blue-400 mb-2 sm:mb-4 font-medium">
+          <p className="text-xs sm:text-sm uppercase tracking-widest text-blue-300 mb-2 sm:mb-4 font-medium">
             Archive / 2024
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-7xl font-light text-blue-100 leading-[1.05] sm:leading-tight lg:leading-[0.95] mb-4 sm:mb-8">

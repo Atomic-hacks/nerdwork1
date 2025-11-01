@@ -55,7 +55,7 @@ export default function ComicDisplaySection() {
       >
         <h2 className="text-3xl md:text-7xl font-bold text-neutral-50 tracking-tight mb-4">
           Redefining{" "}
-          <span className="italic font-semibold md:text-8xl text-4xl text-blue-400">
+          <span className="italic font-semibold md:text-8xl text-4xl text-blue-300">
             African
           </span>{" "}
           Storytelling

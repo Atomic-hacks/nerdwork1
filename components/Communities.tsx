@@ -20,7 +20,7 @@ export default function CommunitySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-5xl md:text-6xl italic text-blue-400! font-semibold tracking-tight"
+          className="text-5xl md:text-6xl italic text-blue-300! font-semibold tracking-tight"
         >
           People, Passion, Community.
         </motion.h1>
