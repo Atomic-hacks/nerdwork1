@@ -79,9 +79,9 @@ export default function NavBar() {
                 <path
                   d="M5 12h14M13 5l6 7-6 7"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </g>
             </svg>

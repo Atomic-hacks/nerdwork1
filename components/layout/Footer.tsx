@@ -58,12 +58,12 @@ export default function Footer() {
       {/* Animated Image */}
       <motion.div
         style={{ y }}
-        className="pointer-events-none absolute z-50 hidden -translate-x-1/2 md:-bottom-40 md:left-90 md:block"
+        className="pointer-events-none absolute z-50 hidden -translate-x-1/2 md:-bottom-40 md:left-96 md:block"
       >
         <img
-          src="/comic-cont.png"
+          src="footer.jpg"
           alt="Footer animation"
-          className="size-[550px] object-contain"
+          className="size-[400px] object-contain"
         />
       </motion.div>
 
@@ -107,9 +107,9 @@ export default function Footer() {
         </div>
 
         {/* Mobile Image - Static at bottom */}
-        <div className="absolute bottom-0 left-1/3 md:hidden">
+        <div className="absolute -bottom-20 left-1/3 md:hidden">
           <img
-            src="/comic-cont.png"
+            src="/footer.jpg"
             alt="Footer animation"
             className="size-96 object-contain"
           />

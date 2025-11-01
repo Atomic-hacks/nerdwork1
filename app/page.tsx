@@ -10,8 +10,10 @@ export default function Home() {
     <main className="max-w-[2160px] relative px-4 mx-auto">
       <div className="mt-28 md:mt-40">
         <h1 className="text-3xl md:text-5xl text-center">
-          Nerdwork
-          <br /> Where passion meets community
+          Where passion meets{" "}
+          <span className="text-4xl md:text-6xl font-bold text-blue-400">
+            community
+          </span>
         </h1>
       </div>
       <ComicHeroSlider />

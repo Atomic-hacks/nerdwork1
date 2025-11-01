@@ -5,10 +5,19 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
+  Variants,
 } from "framer-motion";
 import Button from "./ui/Button";
 
-const slides = [
+interface Slide {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  cta: string;
+}
+
+const slides: Slide[] = [
   {
     id: 1,
     image: "/comic.jpg",
@@ -21,46 +30,54 @@ const slides = [
     image: "/comic2.jpg",
     title: "Enter the Nerdverse",
     description: "Explore exclusive comics on the Nerdwork+ platform",
-    cta: "Explore Now",
+    cta: "Start Reading",
   },
   {
     id: 3,
     image: "/comic5.jpg",
     title: "Beyond Comics",
     description:
-      "Attend the most exciting comic conventions,  Connect with one of the largest nerd community",
-    cta: "Start Journey",
+      "Attend the most exciting comic conventions, Connect with one of the largest nerd community",
+    cta: "See Communities",
   },
 ];
+
 export default function CinematicHeroSlider() {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(0);
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
   const handlePrev = () => {
+    setDirection(-1);
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   const handleNext = () => {
+    setDirection(1);
     setCurrent((prev) => (prev + 1) % slides.length);
   };
 
+  const getSlideIndex = (offset: number): number => {
+    return (current + offset + slides.length) % slides.length;
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      handleNext();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [current]);
+
   return (
-    <div className="relative h-[70vh] max-w-5xl mx-auto overflow-hidden rounded-2xl mt-5 mb-10 md:mb-20">
+    <div className="relative h-[70vh] max-w-7xl mx-auto overflow-hidden rounded-2xl mt-5 mb-10 md:mb-20">
       {/* Counter - Top Left */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="absolute top-20 left-10 md:top-32 md:left-32 z-30 text-white"
+        className="absolute top-0 left-5 z-30 text-white"
       >
         <div className="flex items-baseline gap-1 text-sm md:text-base font-light tracking-wider">
           <motion.h1
@@ -78,8 +95,8 @@ export default function CinematicHeroSlider() {
               /{slides.length}
             </h1>
           </div>
-        </div>{" "}
-        <div className="absolute z-30 flex gap-4">
+        </div>
+        <div className="absolute z-30 flex gap-4 mt-4">
           <motion.button
             onClick={handlePrev}
             whileHover={{ scale: 1.1 }}
@@ -126,34 +143,90 @@ export default function CinematicHeroSlider() {
         </div>
       </motion.div>
 
-      {/* Image Slider */}
-      <motion.div style={{ y, scale }} className="relative h-full w-full">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
-            <img
-              src={slides[current].image}
-              alt={slides[current].title}
-              className="h-full w-full object-cover"
-            />
+      {/* 3-Image Carousel Container */}
+      {/* Netflix-Style 3D Carousel */}
+      <div className="relative h-full w-full flex items-center justify-center perspective-[1200px] overflow-visible">
+        {[-1, 0, 1].map((offset) => {
+          const index = getSlideIndex(offset);
+          const isCenter = offset === 0;
 
-            {/* Dark Gradient Overlay - Bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+          const variants: Variants = {
+            enter: (dir: number) => ({
+              x: dir > 0 ? 300 : -300,
+              scale: 0.7,
+              opacity: 0,
+              filter: "blur(10px)",
+              rotateY: dir > 0 ? -30 : 30,
+              zIndex: 1,
+            }),
+            center: {
+              x: 0,
+              scale: 1,
+              opacity: 1,
+              filter: "blur(0px)",
+              rotateY: 0,
+              zIndex: 10,
+              transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+            },
+            sideLeft: {
+              x: -250,
+              scale: 0.8,
+              opacity: 0.6,
+              filter: "blur(4px)",
+              rotateY: 20,
+              zIndex: 5,
+              transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+            },
+            sideRight: {
+              x: 250,
+              scale: 0.8,
+              opacity: 0.6,
+              filter: "blur(4px)",
+              rotateY: -20,
+              zIndex: 5,
+              transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+            },
+            exit: (dir: number) => ({
+              x: dir > 0 ? -300 : 300,
+              scale: 0.7,
+              opacity: 0,
+              filter: "blur(10px)",
+              rotateY: dir > 0 ? 30 : -30,
+              zIndex: 1,
+              transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+            }),
+          };
 
-            {/* Vignette Effect */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
+          const variant =
+            offset === 0 ? "center" : offset === -1 ? "sideLeft" : "sideRight";
+
+          return (
+            <motion.div
+              key={index}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate={variant}
+              exit="exit"
+              layout
+              className="absolute w-[70%] md:w-[60%] h-[70%] md:h-[90%] rounded-2xl overflow-hidden cursor-pointer shadow-xl shadow-black/40"
+              onClick={
+                isCenter ? undefined : offset === -1 ? handlePrev : handleNext
+              }
+            >
+              <img
+                src={slides[index].image}
+                alt={slides[index].title}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+            </motion.div>
+          );
+        })}
+      </div>
 
       {/* Content - Bottom Right */}
-      <div className="absolute md:bottom-10 md:right-10  bottom-20 right-0 p-8 md:p-12 lg:p-16 z-20 max-w-2xl">
+      <div className="absolute md:bottom-10 md:right-10 bottom-20 right-0 p-8 md:p-12 lg:p-16 z-20 max-w-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -167,7 +240,7 @@ export default function CinematicHeroSlider() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
+              className="text-3xl md:text-6xl font-bold mb-4 leading-tight"
             >
               {slides[current].title}
             </motion.h1>
@@ -191,7 +264,10 @@ export default function CinematicHeroSlider() {
         {slides.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => setCurrent(idx)}
+            onClick={() => {
+              setDirection(idx > current ? 1 : -1);
+              setCurrent(idx);
+            }}
             aria-label={`Go to slide ${idx + 1}`}
             className="relative group"
           >
